@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SelectBox</title>
+    <style>
+      #iptRegiCode {
+        display: none;
+      }
+
+      #ulList {
+        overflow-y: scroll;
+        transition: max-height 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 200px; height: 400px">
+      <button id="toggleButton" style="width: 100%; height: 30px">Code</button>
+      <label for="iptCode" class="hide"></label>
+      <!--                                        <input type="text" placeholder="코드를 입력해 주세요." id="iptCode" name="iptCode[]" class="place-hide large">-->
+      <!--  같은 코드는 다르나 같은 Type을 가진것들이 있어 code를 노출(20230915 김하은)                   -->
+      <div id="ulList">
+        <ul name="iptCode" id="iptRegiCode" class="hidden" style="width: 100%">
+          <li>
+            <button value="A" value2="자체 입고 검수">A</button>
+          </li>
+          <li>
+            <button value="B" value2="자체 입고 검수">B</button>
+          </li>
+
+          <li>
+            <button value="C" value2="Cabinet 외함 조립">C</button>
+          </li>
+          <li>
+            <button value="D" value2="Cabinet 외함 조립">D</button>
+          </li>
+          <li>
+            <button value="E" value2="Material Arrangement">E</button>
+          </li>
+          <li>
+            <button value="F" value2="Material Arrangement">F</button>
+          </li>
+          <li>
+            <button value="G" value2="Power&Ground Cable 제작">G</button>
+          </li>
+          <li>
+            <button value="H" value2="Signal Cable 제작">H</button>
+          </li>
+          <li>
+            <button value="I" value2="Network Cable 제작">I</button>
+          </li>
+          <li>
+            <button value="J" value2="Power&Ground Cable 결선">J</button>
+          </li>
+          <li>
+            <button value="K" value2="Signal Cable 결선">K</button>
+          </li>
+          <li>
+            <button value="L" value2="Network Cable 결선">L</button>
+          </li>
+          <li>
+            <button value="M" value2="라인/비쥬얼 체크">M</button>
+          </li>
+          <li>
+            <button value="N" value2="추가/수정 작업">N</button>
+          </li>
+          <li>
+            <button value="O" value2="제작 오류">O</button>
+          </li>
+          <li>
+            <button value="P" value2="출장">P</button>
+          </li>
+          <li>
+            <button value="Q" value2="기타작업">Q</button>
+          </li>
+          <li>
+            <button value="R" value2="기타작업">R</button>
+          </li>
+          <li>
+            <button value="S" value2="Cabinet Layout Drawing">S</button>
+          </li>
+          <li>
+            <button value="T" value2="Cabinet Wiring Drawing">T</button>
+          </li>
+          <li>
+            <button value="U" value2="SAD">U</button>
+          </li>
+          <li>
+            <button value="V" value2="Cabinet B.O.M">V</button>
+          </li>
+          <li>
+            <button value="W" value2="Meeting">W</button>
+          </li>
+          <li>
+            <button value="X" value2="추가/수정 작업">X</button>
+          </li>
+          <li>
+            <button value="Y" value2="설계 오류">Y</button>
+          </li>
+          <li>
+            <button value="Z" value2="기타 작업">Z</button>
+          </li>
+          <li>
+            <button value="AA" value2="직영제작">AA</button>
+          </li>
+          <li>
+            <button value="BB" value2="외주제작 판매">BB</button>
+          </li>
+          <li>
+            <button value="CC" value2="명판/아크릴 제작">CC</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      const test = document.getElementById("iptRegiCode");
+      const toggleButton = document.getElementById("toggleButton");
+      const ulList = document.getElementById("ulList");
+
+      toggleButton.addEventListener("click", function (event) {
+        if (test.style.display == "none" || test.style.display === "") {
+          test.style.display = "inline";
+          ulList.style.maxHeight = "150px";
+        } else {
+          test.style.display = "none";
+          ulList.style.maxHeight = "0px";
+        }
+        // if (test.style.maxHeight == "0px" || !test.style.maxHeight) {
+        //   test.style.maxHeight = "100%"; // 펼칠 높이를 지정
+        // } else {
+        //   test.style.maxHeight = "0px"; // 다시 닫을 때
+        // }
+      });
+      // 각 버튼을 클릭할 때 이벤트 핸들러 추가
+      const buttons = test.querySelectorAll("button");
+      buttons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          // 클릭한 버튼의 value와 data-value2 값을 가져오기
+          const value = button.getAttribute("value");
+          const value2 = button.getAttribute("value2");
+
+          // toggleButton의 텍스트 설정
+          toggleButton.innerText = value;
+
+          // 여기서 value와 value2를 사용하여 원하는 작업 수행
+          test.style.display = "none";
+          console.log("Value:", value);
+          console.log("Value2:", value2);
+        });
+      });
+    </script>
+  </body>
+</html>

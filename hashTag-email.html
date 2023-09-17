@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HashTagPractice</title>
+    <style rel="stylesheet">
+      #hashtagContainer {
+        display: flex;
+        width: 500px;
+        height: 30px;
+      }
+
+      #hashtagInput {
+        height: 20px;
+        width: 300px; /* 너비를 설정하여 데이터가 넘칠 경우 스크롤바가 표시되도록 합니다. */
+      }
+
+      .hashtag {
+        background-color: #ffc107; /* 배경색 설정 */
+        display: block;
+        padding: 2px 5px;
+        margin: 2px;
+        cursor: pointer;
+      }
+
+      .hashtag:hover {
+        background-color: chocolate;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hashtagContainer">
+      <input type="text" id="hashtagInput" />
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // 해시태그 입력란 선택
+        var hashtagInput = document.getElementById("hashtagInput");
+
+        // Enter 키 입력 감지
+        hashtagInput.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault(); // Enter 키 기본 동작 방지
+
+            // 입력된 내용 가져오기
+            var inputText = hashtagInput.value + "      x";
+
+            // 입력된 내용을 해시태그 형식으로 감싸기
+            var hashtagElement = document.createElement("span");
+            hashtagElement.className = "hashtag";
+            hashtagElement.textContent = inputText;
+
+            // 입력된 내용을 입력란 내에 추가
+            hashtagInput.value = hashtagElement.textContent;
+            hashtagContainer.appendChild(hashtagElement);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

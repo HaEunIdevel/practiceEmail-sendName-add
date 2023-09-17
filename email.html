@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>네이버 메일 수신참조</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      #container {
+        display: flex;
+        align-items: center;
+        max-width: 800px;
+        border: 1px solid red;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      #container::-webkit-scrollbar {
+        display: none;
+      }
+
+      #leftDiv {
+        border: none;
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+        padding: 8px;
+        padding-left: 0;
+        padding-top: 0;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        white-space: nowrap;
+      }
+      #leftDiv::-webkit-scrollbar {
+        display: none;
+      }
+
+      input {
+        flex-grow: 1;
+        padding: 2px;
+        padding-left: 6px;
+        font-size: 16px;
+        min-width: 200px;
+        transition: width 0.3s;
+        outline: none;
+        border: none;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: none;
+        position: absolute;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        background-color: #fff;
+      }
+      ul.show {
+        display: block;
+      }
+
+      li {
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 10px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        margin: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>네이버 메일 수신참조</h1>
+    <div id="container">
+      <div id="leftDiv">
+        <!-- 동적으로 생성되는 span이 여기에 추가됩니다. -->
+      </div>
+      <input
+        type="text"
+        id="textInput"
+        placeholder="데이터 입력 후 Enter를 누르세요"
+      />
+    </div>
+    <ul id="dropdown">
+      <li><button value="12">12</button></li>
+      <li><button value="33">33</button></li>
+      <li><button value="44">44</button></li>
+      <li><button value="55">55</button></li>
+      <li><button value="99">99</button></li>
+    </ul>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // input 요소와 div 요소를 가져옵니다.
+        const leftDiv = document.getElementById("leftDiv");
+        const inputElement = document.getElementById("textInput");
+        const dropdownElement = document.getElementById("dropdown");
+
+        // input 클릭 시 dropdown을 표시합니다.
+        inputElement.addEventListener("click", function () {
+          dropdownElement.classList.add("show");
+        });
+
+        const buttons = dropdownElement.querySelectorAll("button");
+        buttons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const value = button.getAttribute("value");
+            inputElement.value = value;
+            console.log(inputElement.value);
+
+            // 엔터 키 이벤트를 강제로 발생시켜서 Enter 효과를 줍니다.
+            const enterKeyEvent = new KeyboardEvent("keyup", {
+              key: "Enter",
+              bubbles: true,
+              cancelable: true,
+              view: window,
+            });
+            inputElement.dispatchEvent(enterKeyEvent);
+          });
+        });
+        // 외부를 클릭하면 dropdown을 숨깁니다.
+        document.addEventListener("click", function (event) {
+          if (
+            event.target !== inputElement &&
+            event.target !== dropdownElement
+          ) {
+            dropdownElement.classList.remove("show");
+          }
+        });
+
+        inputElement.addEventListener("keyup", function (event) {
+          if (event.key === "Enter" && inputElement.value) {
+            const inputData = inputElement.value + "    x";
+
+            if (inputData.trim() !== "") {
+              // 데이터가 없을 때 생성하지 않음
+              // 새로운 span 요소 생성
+              const span = document.createElement("span");
+              span.style.cursor = "pointer";
+              span.style.backgroundColor = "coral";
+              span.style.borderRadius = "5px";
+              span.style.padding = "5px";
+              span.style.fontSize = "10px";
+              span.style.boxSizing = "border-box";
+              span.style.whiteSpace = "nowrap";
+              span.textContent = inputData;
+
+              // span 클릭 이벤트 리스너 추가
+              span.addEventListener("click", function () {
+                // 클릭된 span의 너비 가져오기
+                const spanWidth = span.offsetWidth;
+                // 클릭된 span 제거
+                leftDiv.removeChild(span);
+
+                // Scroll to the end of leftDiv where the new data is added
+                leftDiv.scrollLeft = leftDiv.scrollWidth;
+
+                // Focus on the input element after removing the span
+                inputElement.focus();
+              });
+
+              // span을 leftDiv에 추가
+              leftDiv.appendChild(span);
+
+              // 입력란 초기화
+              inputElement.value = "";
+
+              // Scroll to the newly added span
+              span.scrollIntoView({ behavior: "smooth" }); // Scroll smoothly to the span
+
+              // Focus on the input element after adding the span
+              inputElement.focus();
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
