@@ -10,15 +10,11 @@
       }
       #container {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        max-width: 800px;
+        width: 500px;
         border: 1px solid red;
-        overflow-x: auto;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      #container::-webkit-scrollbar {
-        display: none;
+        height: 150px;
       }
 
       #leftDiv {
@@ -29,24 +25,20 @@
         padding: 8px;
         padding-left: 0;
         padding-top: 0;
-        overflow-x: auto;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        white-space: nowrap;
-      }
-      #leftDiv::-webkit-scrollbar {
-        display: none;
+        width: 100%;
+        max-height: 100px;
+        overflow-y: auto;
+        flex-wrap: wrap;
       }
 
       input {
-        flex-grow: 1;
         padding: 2px;
+        height: 40px;
         padding-left: 6px;
         font-size: 16px;
-        min-width: 200px;
-        transition: width 0.3s;
-        outline: none;
-        border: none;
+        width: 100%;
+        /* outline: none; */
+        /* border: none; */
       }
       ul {
         list-style: none;
@@ -54,7 +46,7 @@
         margin: 0;
         display: none;
         position: absolute;
-        width: 100%;
+        width: 500px;
         max-height: 200px;
         overflow-y: auto;
         border: 1px solid #ccc;
@@ -78,14 +70,14 @@
   <body>
     <h1>네이버 메일 수신참조</h1>
     <div id="container">
-      <div id="leftDiv">
-        <!-- 동적으로 생성되는 span이 여기에 추가됩니다. -->
-      </div>
       <input
         type="text"
         id="textInput"
         placeholder="데이터 입력 후 Enter를 누르세요"
       />
+      <div id="leftDiv">
+        <!-- 동적으로 생성되는 span이 여기에 추가됩니다. -->
+      </div>
     </div>
     <ul id="dropdown">
       <li><button value="12">12</button></li>
@@ -147,14 +139,16 @@
               span.style.borderRadius = "5px";
               span.style.padding = "5px";
               span.style.fontSize = "10px";
+              span.style.display = "inline-block";
               span.style.boxSizing = "border-box";
-              span.style.whiteSpace = "nowrap";
+              span.style.whiteSpace = "pre ";
+
               span.textContent = inputData;
 
               // span 클릭 이벤트 리스너 추가
               span.addEventListener("click", function () {
                 // 클릭된 span의 너비 가져오기
-                const spanWidth = span.offsetWidth;
+                const spanWidth = span.offsetHeight;
                 // 클릭된 span 제거
                 leftDiv.removeChild(span);
 
