@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select PJT 매출 / 매입</title>
+  </head>
+  <body>
+    <form id="executionForm">
+      <article>
+        <h3>담당팁</h3>
+        <select name="iptPjtTeam" id="iptPjtTeam">
+          <option value="" selected>전체</option>
+          <option value="S/E">S/E</option>
+          <option value="Sales">Sales</option>
+        </select>
+      </article>
+      <article id="executionPart" style="display: none">
+        <h3>실행 매입 / 매출</h3>
+        <select name="executionCategory" id="executionCategory">
+          <option value="" selected disabled>매출 매입을 선택해주세요</option>
+          <option value="실행 매출">실행 매출</option>
+          <option value="실행 매입">실행 매입</option>
+        </select>
+      </article>
+      <!-- 매출 폼 -->
+      <article id="salesForm" style="display: none">
+        <h3>매출 폼</h3>
+        <!-- 매출과 관련된 필드들을 추가 -->
+        <input type="text" name="salesField1" placeholder="매출 필드 1" />
+        <input type="text" name="salesField2" placeholder="매출 필드 2" />
+      </article>
+
+      <!-- 매입 폼 -->
+      <article id="purchaseForm" style="display: none">
+        <h3>매입 폼</h3>
+        <!-- 매입과 관련된 필드들을 추가 -->
+        <input type="text" name="purchaseField1" placeholder="매입 필드 1" />
+        <input type="text" name="purchaseField2" placeholder="매입 필드 2" />
+      </article>
+      <button>버튼</button>
+    </form>
+    <script>
+      // 배정 팀 선택 변경 이벤트 핸들러
+      iptPjtTeam.addEventListener("change", function () {
+        const selectedValue = iptPjtTeam.value;
+        const executionPart = document.getElementById("executionPart");
+        if (iptPjtTeam.value === "S/E") {
+          executionPart.style.display = "block";
+        } else {
+          // 다른 팀을 선택한 경우 모든 필드를 숨김
+          executionPart.style.display = "none";
+        }
+      });
+      // 실행 매입/매출 선택 변경 이벤트 핸들러
+      executionCategory.addEventListener("change", function () {
+        const selectedCategory = executionCategory.value;
+
+        if (selectedCategory === "실행 매출") {
+          // 매출을 선택한 경우 매출 폼을 표시하고 매입 폼을 숨김
+          salesForm.style.display = "block";
+          purchaseForm.style.display = "none";
+        } else if (selectedCategory === "실행 매입") {
+          // 매입을 선택한 경우 매입 폼을 표시하고 매출 폼을 숨김
+          salesForm.style.display = "none";
+          purchaseForm.style.display = "block";
+        } else {
+          // 매입/매출 선택을 초기화하는 경우 모든 폼을 숨김
+          salesForm.style.display = "none";
+          purchaseForm.style.display = "none";
+        }
+      });
+      // 데이터 전송 이벤트 핸들러
+      executionForm.addEventListener("click", function (e) {
+        e.preventDefault();
+        // 선택된 데이터를 수집하여 서버로 전송
+        const selectedCategory = executionCategory.value;
+        console.log("Selected Category:", selectedCategory);
+        const formData = new FormData();
+
+        formData.append("selectedCategory", selectedCategory);
+
+        // 매출 데이터 수집
+        formData.append(
+          "salesField1",
+          salesForm.querySelector('input[name="salesField1"]').value,
+        );
+        const Sales = salesForm.querySelector(
+          'input[name="salesField1"]',
+        ).value;
+        console.log(Sales);
+
+        formData.append(
+          "salesField2",
+          salesForm.querySelector('input[name="salesField2"]').value,
+        );
+        const Sales2 = salesForm.querySelector(
+          'input[name="salesField2"]',
+        ).value;
+        console.log(Sales2, "2222222");
+        // 매입 데이터 수집
+        const purchase1 = purchaseForm.querySelector(
+          'input[name="purchaseField1"]',
+        ).value;
+        const purchase2 = purchaseForm.querySelector(
+          'input[name="purchaseField2"]',
+        ).value;
+        console.log(purchase1);
+        console.log(purchase2);
+        formData.append(
+          "purchaseField1",
+          purchaseForm.querySelector('input[name="purchaseField1"]').value,
+        );
+        formData.append(
+          "purchaseField2",
+          purchaseForm.querySelector('input[name="purchaseField2"]').value,
+        );
+
+        // AJAX를 사용하여 데이터 서버로 전송
+      });
+    </script>
+  </body>
+</html>
